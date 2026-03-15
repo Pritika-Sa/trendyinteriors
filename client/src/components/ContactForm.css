@@ -1,0 +1,197 @@
+/* PREMIUM FORM STYLES */
+.contact-form-premium {
+  padding: 40px;
+  background-color: #ffffff;
+}
+
+.form-message {
+  padding: 15px;
+  border-radius: 4px;
+  margin-bottom: 25px;
+  text-align: center;
+  font-weight: 500;
+  font-size: 0.9rem;
+}
+
+.form-message.success {
+  background-color: #d4edda;
+  color: #155724;
+  border-left: 4px solid #28a745;
+}
+
+.form-message.error {
+  background-color: #f8d7da;
+  color: #721c24;
+  border-left: 4px solid #dc3545;
+}
+
+.form-group {
+  margin-bottom: 25px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 600;
+  color: #333;
+  font-size: 0.9rem;
+  letter-spacing: 0.5px;
+}
+
+.input-with-icon {
+  position: relative !important;
+  display: block !important;
+  width: 100% !important;
+}
+
+.input-icon {
+  position: absolute !important;
+  left: 18px !important;
+  top: 50% !important;
+  transform: translateY(-50%) !important;
+  color: #d4af37 !important;
+  /* Gold icons look more premium */
+  font-size: 1.2rem !important;
+  pointer-events: none !important;
+  z-index: 10 !important;
+  transition: all 0.3s ease;
+}
+
+.textarea-icon {
+  top: 25px !important;
+  transform: none !important;
+}
+
+/* ULTRA SPECIFIC SELECTOR TO FORCE PADDING */
+.contact-form-premium .input-with-icon input,
+.contact-form-premium .input-with-icon select,
+.contact-form-premium .input-with-icon textarea {
+  width: 100% !important;
+  padding: 14px 20px 14px 80px !important;
+  /* Increased to 80px to be absolutely sure */
+  border: 1px solid #d4af37 !important;
+  /* Sleek 1px gold border */
+  border-radius: 8px !important;
+  font-size: 16px !important;
+  color: #000000 !important;
+  /* Pure black text */
+  background-color: #ffffff !important;
+  transition: all 0.3s ease !important;
+  font-family: inherit !important;
+  display: block !important;
+  box-sizing: border-box !important;
+}
+
+.input-with-icon select {
+  appearance: none;
+  cursor: pointer;
+}
+
+.input-with-icon input:focus,
+.input-with-icon select:focus,
+.input-with-icon textarea:focus {
+  outline: none;
+  border-color: #d4af37;
+  background: #fff;
+  box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.1);
+}
+
+/* Highlight icon on focus */
+.input-with-icon:focus-within .input-icon {
+  color: #d4af37;
+}
+
+.input-with-icon input::placeholder,
+.input-with-icon textarea::placeholder,
+.input-with-icon select::placeholder {
+  color: #8a8a8a;
+  font-size: 14px;
+  opacity: 0.8;
+}
+
+.submit-btn-premium {
+  width: 100%;
+  padding: 15px;
+  background: linear-gradient(135deg, #d4af37, #b89628);
+  color: #fff;
+  font-weight: 700;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-size: 1rem;
+  margin-top: 10px;
+}
+
+.submit-btn-premium:hover:not(:disabled) {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 20px rgba(212, 175, 55, 0.25);
+  background: linear-gradient(135deg, #e5be3e, #cba534);
+}
+
+.submit-btn-premium:disabled {
+  opacity: 0.7;
+  cursor: wait;
+}
+
+.privacy-note {
+  margin-top: 15px;
+  font-size: 0.8rem;
+  color: #999;
+  text-align: center;
+}
+
+/* Responsive adjustments */
+@media (max-width: 600px) {
+  .contact-form-premium {
+    padding: 25px;
+  }
+}
+
+/* Login Prompt */
+.login-prompt-wrapper {
+  text-align: center;
+  padding: 2rem;
+  background: rgba(212, 175, 55, 0.05);
+  border: 1px dashed #d4af37;
+  border-radius: 12px;
+  margin-top: 1rem;
+}
+
+.login-prompt-wrapper p {
+  color: #ccc;
+  margin-bottom: 1.5rem;
+  font-size: 1.05rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-login-redirect {
+  background: #d4af37;
+  color: #1a1a1a;
+  border: none;
+  padding: 0.8rem 2rem;
+  font-weight: 600;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.btn-login-redirect:hover {
+  background: #f4d03f;
+  transform: translateY(-2px);
+  box-shadow: 0 4.PROJECTS 15px rgba(212, 175, 55, 0.3);
+}
+
+/* Character Count Helper */
+.char-count {
+  display: block;
+  margin-top: 8px;
+  font-size: 0.85rem;
+  font-weight: 500;
+}
