@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import axios from 'axios';
-import { FaComments, FaTimes, FaPaperPlane, FaSpinner } from 'react-icons/fa';
+import { FaComments, FaTimes, FaPaperPlane, FaSpinner, FaPaperclip } from 'react-icons/fa';
 import './ChatBot.css';
 
 const ChatBot = () => {
@@ -14,8 +14,10 @@ const ChatBot = () => {
     }
   ]);
   const [inputValue, setInputValue] = useState('');
+  const [selectedFile, setSelectedFile] = useState(null);
   const [loading, setLoading] = useState(false);
   const messagesEndRef = useRef(null);
+  const fileInputRef = useRef(null);
 
   const quickReplies = [
     'View pricing',
@@ -35,11 +37,12 @@ const ChatBot = () => {
 
   const handleSendMessage = async (e) => {
     e.preventDefault();
-    if (!inputValue.trim() || loading) return;
+    if ((!inputValue.trim() && !selectedFile) || loading) return;
 
     const userMessage = {
       id: messages.length + 1,
-      text: inputValue,
+      text: inputValue.trim(),
+      attachmentName: selectedFile?.name || null,
       sender: 'user',
       timestamp: new Date()
     };
@@ -54,13 +57,24 @@ const ChatBot = () => {
         .slice(-4)
         .map(msg => ({
           role: msg.sender === 'user' ? 'user' : 'assistant',
-          content: msg.text
+          content: msg.attachmentName ? `${msg.text || ''}\n[Attached file: ${msg.attachmentName}]`.trim() : msg.text
         }));
 
-      const response = await axios.post('http://localhost:5000/api/chatbot/chat', {
-        message: userMessage.text,
-        conversationHistory
-      });
+      let response;
+
+      if (selectedFile) {
+        const formData = new FormData();
+        formData.append('message', userMessage.text);
+        formData.append('conversationHistory', JSON.stringify(conversationHistory));
+        formData.append('attachment', selectedFile);
+
+        response = await axios.post('http://localhost:5000/api/chatbot/chat', formData);
+      } else {
+        response = await axios.post('http://localhost:5000/api/chatbot/chat', {
+          message: userMessage.text,
+          conversationHistory
+        });
+      }
 
       if (response.data.success) {
         const botMessage = {
@@ -70,6 +84,10 @@ const ChatBot = () => {
           timestamp: new Date()
         };
         setMessages(prev => [...prev, botMessage]);
+        setSelectedFile(null);
+        if (fileInputRef.current) {
+          fileInputRef.current.value = '';
+        }
       } else {
         throw new Error(response.data.error || 'Failed to get response');
       }
@@ -77,13 +95,36 @@ const ChatBot = () => {
       console.error('Chatbot error:', error);
       const errorMessage = {
         id: messages.length + 2,
-        text: error.response?.data?.error || 'Sorry, I encountered an error. Please try again or contact us directly at +91 99652 99777',
+        text: error.response?.data?.error || error.response?.data?.message || 'Sorry, I encountered an error. Please try again or contact us directly at +91 99652 99777',
         sender: 'bot',
         timestamp: new Date()
       };
       setMessages(prev => [...prev, errorMessage]);
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleFileSelect = (event) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
+
+    const isPdf = file.type === 'application/pdf';
+    const isImage = file.type.startsWith('image/');
+
+    if (!isPdf && !isImage) {
+      alert('Please upload a PDF or image file only.');
+      event.target.value = '';
+      return;
+    }
+
+    setSelectedFile(file);
+  };
+
+  const clearSelectedFile = () => {
+    setSelectedFile(null);
+    if (fileInputRef.current) {
+      fileInputRef.current.value = '';
     }
   };
 
@@ -134,6 +175,9 @@ const ChatBot = () => {
             {messages.map((msg) => (
               <div key={msg.id} className={`message ${msg.sender}`}>
                 <div className="message-content">
+                  {msg.attachmentName && (
+                    <div className="message-attachment-chip">📎 {msg.attachmentName}</div>
+                  )}
                   <p>{msg.text}</p>
                   <small className="message-time">
                     {msg.timestamp.toLocaleTimeString([], { 
@@ -176,22 +220,48 @@ const ChatBot = () => {
           {/* Input */}
           <form className="chatbot-input-form" onSubmit={handleSendMessage}>
             <input
+              ref={fileInputRef}
+              type="file"
+              accept="application/pdf,image/*"
+              className="hidden-file-input"
+              onChange={handleFileSelect}
+              disabled={loading}
+            />
+            <button
+              type="button"
+              className="image-upload-btn"
+              onClick={() => fileInputRef.current?.click()}
+              disabled={loading}
+              aria-label="Attach PDF or image"
+              title="Attach PDF or image"
+            >
+              <FaPaperclip />
+            </button>
+            <input
               type="text"
               value={inputValue}
               onChange={(e) => setInputValue(e.target.value)}
-              placeholder="Type your question..."
+              placeholder="Type your question or attach floor plan..."
               className="chatbot-input"
               disabled={loading}
             />
             <button
               type="submit"
               className="send-btn"
-              disabled={!inputValue.trim() || loading}
+              disabled={(!inputValue.trim() && !selectedFile) || loading}
               aria-label="Send message"
             >
               {loading ? <FaSpinner className="spinner" /> : <FaPaperPlane />}
             </button>
           </form>
+          {selectedFile && (
+            <div className="selected-file-row">
+              <span className="selected-file-name">📎 {selectedFile.name}</span>
+              <button type="button" className="clear-file-btn" onClick={clearSelectedFile} disabled={loading}>
+                Remove
+              </button>
+            </div>
+          )}
         </div>
       )}
     </>
