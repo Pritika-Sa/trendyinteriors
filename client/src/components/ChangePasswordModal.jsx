@@ -21,7 +21,7 @@ const ChangePasswordModal = ({ isOpen, onClose, onSuccess }) => {
 
         try {
             const token = localStorage.getItem('token');
-            const response = await fetch('http://localhost:5000/api/auth/send-change-password-otp', {
+            const response = await fetch('https://trendyinteriors-1.onrender.com/api/auth/send-change-password-otp', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -87,7 +87,7 @@ const ChangePasswordModal = ({ isOpen, onClose, onSuccess }) => {
         try {
             const token = localStorage.getItem('token');
             const otp = otpDigits.join('');
-            const response = await fetch('http://localhost:5000/api/auth/change-password-with-otp', {
+            const response = await fetch('https://trendyinteriors-1.onrender.com/api/auth/change-password-with-otp', {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',

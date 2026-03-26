@@ -1,7 +1,7 @@
 // Simple socket client example for subscribing to admin/customer events
 import { io } from 'socket.io-client';
 
-const socket = io(process.env.REACT_APP_WS_URL || 'http://localhost:5000', {
+const socket = io(process.env.REACT_APP_WS_URL || 'https://trendyinteriors-1.onrender.com', {
   autoConnect: true,
   reconnection: true,
   reconnectionDelay: 1000,

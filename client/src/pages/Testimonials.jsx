@@ -57,7 +57,7 @@ const Testimonials = () => {
   useEffect(() => {
     const fetchTestimonials = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/api/testimonials');
+        const response = await axios.get('https://trendyinteriors-1.onrender.com/api/testimonials');
         if (response.data.success && response.data.data && response.data.data.length > 0) {
           // Get latest 9 testimonials only
           const latest9 = response.data.data.slice(0, 9);

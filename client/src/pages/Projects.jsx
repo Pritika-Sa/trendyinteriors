@@ -22,7 +22,7 @@ const Projects = () => {
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const response = await fetch('http://localhost:5000/api/categories');
+        const response = await fetch('https://trendyinteriors-1.onrender.com/api/categories');
         const data = await response.json();
         if (data.success && data.data.length > 0) {
           // Map database categories to button format
@@ -59,7 +59,7 @@ const Projects = () => {
   useEffect(() => {
     const fetchProjects = async () => {
       try {
-        const response = await fetch('http://localhost:5000/api/projects');
+        const response = await fetch('https://trendyinteriors-1.onrender.com/api/projects');
         const data = await response.json();
         if (data.success && data.data.length > 0) {
           setAllProjects(data.data);

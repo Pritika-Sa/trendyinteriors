@@ -68,9 +68,9 @@ const ChatBot = () => {
         formData.append('conversationHistory', JSON.stringify(conversationHistory));
         formData.append('attachment', selectedFile);
 
-        response = await axios.post('http://localhost:5000/api/chatbot/chat', formData);
+        response = await axios.post('https://trendyinteriors-1.onrender.com/api/chatbot/chat', formData);
       } else {
-        response = await axios.post('http://localhost:5000/api/chatbot/chat', {
+        response = await axios.post('https://trendyinteriors-1.onrender.com/api/chatbot/chat', {
           message: userMessage.text,
           conversationHistory
         });

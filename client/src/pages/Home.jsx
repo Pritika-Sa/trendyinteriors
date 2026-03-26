@@ -96,7 +96,7 @@ const Home = () => {
   useEffect(() => {
     const fetchLatestProjects = async () => {
       try {
-        const response = await fetch('http://localhost:5000/api/projects?limit=6');
+        const response = await fetch('https://trendyinteriors-1.onrender.com/api/projects?limit=6');
         const data = await response.json();
         if (data.success && data.data.length > 0) {
           setProjects(data.data);
@@ -112,7 +112,7 @@ const Home = () => {
 
     const fetchApprovedTestimonials = async () => {
       try {
-        const response = await fetch('http://localhost:5000/api/testimonials');
+        const response = await fetch('https://trendyinteriors-1.onrender.com/api/testimonials');
         const data = await response.json();
         if (data.success) {
           setTestimonials(data.data);
@@ -126,7 +126,7 @@ const Home = () => {
 
     const fetchServices = async () => {
       try {
-        const response = await fetch('http://localhost:5000/api/services');
+        const response = await fetch('https://trendyinteriors-1.onrender.com/api/services');
         const data = await response.json();
         if (data.success && data.data.length > 0) {
           setServices(data.data);

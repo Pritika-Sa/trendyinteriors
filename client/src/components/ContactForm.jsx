@@ -91,7 +91,7 @@ const ContactForm = ({ formType = 'contact' }) => {
         }
       }
 
-      await axios.post(`http://localhost:5000${endpoint}`, payload, { headers });
+      await axios.post(`https://trendyinteriors-1.onrender.com${endpoint}`, payload, { headers });
 
       setMessage(`Thank you! Your ${formType === 'contact' ? 'message' : 'testimonial'} has been sent successfully.`);
       setFormData({
