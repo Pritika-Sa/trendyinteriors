@@ -6,20 +6,24 @@ sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 const sendAdminEmail = async function({
   to = process.env.ADMIN_EMAIL,
   subject = 'Notification',
-  text = '',
-  html
+  text,
+  html,
 }) {
   if (!to) {
     console.warn('No admin email recipient provided');
     return Promise.resolve();
   }
 
+  // ✅ Fix here
+  const finalText = text || "No content provided";
+  const finalHtml = html || "<p>No content provided</p>";
+
   const msg = {
     to,
-    from: process.env.EMAIL_FROM, // must be verified in SendGrid
+    from: process.env.EMAIL_FROM,
     subject,
-    text,
-    html,
+    text: finalText,
+    html: finalHtml,
   };
 
   try {
@@ -41,7 +45,7 @@ const sendUserEmail = async function({ email, subject, message }) {
     to: email,
     from: process.env.EMAIL_FROM,
     subject,
-    text: message,
+    text: message || "No message provided",
   };
 
   try {
