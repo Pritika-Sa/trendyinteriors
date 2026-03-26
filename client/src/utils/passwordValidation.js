@@ -2,8 +2,7 @@
 export const validatePassword = (password) => {
     const minLength = 8;
     const hasUpperCase = /[A-Z]/.test(password);
-    const hasSymbol = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/.test(password);
-
+    const hasSymbol = /[!@#$%^&*()_+\-=\\[\]{};':"|,.<>/?]/.test(password);
     return {
         isValid: password.length >= minLength && hasUpperCase && hasSymbol,
         errors: {
