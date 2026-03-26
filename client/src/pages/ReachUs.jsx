@@ -99,7 +99,7 @@ const ReachUs = () => {
                     <div className="icon-box"><FaEnvelope /></div>
                     <div className="details">
                       <div className="detail-text">
-                        <p><a href="mailto:trendyinterios@gmail.com">trendyinterios@gmail.com</a></p>
+                        <p><a href="mailto:trendyadmin123@gmail.com">trendyinterios@gmail.com</a></p>
                         <p><a href="mailto:info@trendyinterios.com">info@trendyinterios.com</a></p>
                       </div>
                     </div>

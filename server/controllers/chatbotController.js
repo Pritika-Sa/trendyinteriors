@@ -7,7 +7,7 @@ const companyContext = {
   name: 'TrendyInterios',
   phone: '+91 99652 99777',
   whatsapp: '+91 90803 98889',
-  email: ['trendyinterios@gmail.com', 'info@trendyinterios.com'],
+  email: ['trendyadmin123@gmail.com', 'info@trendyinterios.com'],
   location: '138, Muthugoundampalayam, Sathy-Erode Road, Opp. TNK School, Kavindapadi, Erode, Tamilnadu - 638 455',
   workingHours: '09:00 AM - 07:00 PM',
   services: [
