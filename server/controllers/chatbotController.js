@@ -81,7 +81,7 @@ Guidelines:
 - Encourage them to ask specific questions about services, pricing, or design options`;
 
 const QUOTE_DISCLAIMER = 'This is an approximate estimate. Final quotation will be provided after site inspection.';
-const MEETING_EMAIL_TO = 'trendyinteriors123@gmail.com';
+const MEETING_EMAIL_TO = 'trendyadmin123@gmail.com';
 
 const MEETING_FIELDS = [
   { key: 'name', label: 'Full Name' },
