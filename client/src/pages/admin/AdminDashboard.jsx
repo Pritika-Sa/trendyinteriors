@@ -90,35 +90,66 @@ const AdminDashboard = () => {
         try {
             const response = await fetch('https://trendyinteriors-1.onrender.com/api/projects');
             const data = await response.json();
-            if (data.success) setProjects(data.data);
+            if (!response.ok) {
+                console.error('Error fetching projects:', data.message || 'Unknown error');
+                setProjects([]);
+                return;
+            }
+            if (data.success) setProjects(data.data || []);
+            else setProjects([]);
         } catch (error) {
             console.error('Error fetching projects:', error);
+            setProjects([]);
         }
     };
 
     const fetchTestimonials = async () => {
         try {
             const token = localStorage.getItem('token');
+            if (!token) {
+                console.error('No auth token found');
+                setTestimonials([]);
+                return;
+            }
             const response = await fetch('https://trendyinteriors-1.onrender.com/api/testimonials/admin/all', {
                 headers: { 'Authorization': `Bearer ${token}` }
             });
             const data = await response.json();
-            if (data.success) setTestimonials(data.data);
+            if (!response.ok) {
+                console.error('Error fetching testimonials:', response.status, data.error || data.message);
+                setTestimonials([]);
+                return;
+            }
+            if (data.success) setTestimonials(data.data || []);
+            else setTestimonials([]);
         } catch (error) {
             console.error('Error fetching testimonials:', error);
+            setTestimonials([]);
         }
     };
 
     const fetchContacts = async () => {
         try {
             const token = localStorage.getItem('token');
+            if (!token) {
+                console.error('No auth token found');
+                setContacts([]);
+                return;
+            }
             const response = await fetch('https://trendyinteriors-1.onrender.com/api/contacts', {
                 headers: { 'Authorization': `Bearer ${token}` }
             });
             const data = await response.json();
-            if (data.success) setContacts(data.data);
+            if (!response.ok) {
+                console.error('Error fetching contacts:', response.status, data.error || data.message);
+                setContacts([]);
+                return;
+            }
+            if (data.success) setContacts(data.data || []);
+            else setContacts([]);
         } catch (error) {
             console.error('Error fetching contacts:', error);
+            setContacts([]);
         }
     };
 
@@ -126,9 +157,16 @@ const AdminDashboard = () => {
         try {
             const response = await fetch('https://trendyinteriors-1.onrender.com/api/team-members');
             const data = await response.json();
-            if (data.success) setTeamMembers(data.data);
+            if (!response.ok) {
+                console.error('Error fetching team members:', response.status, data.message);
+                setTeamMembers([]);
+                return;
+            }
+            if (data.success) setTeamMembers(data.data || []);
+            else setTeamMembers([]);
         } catch (error) {
             console.error('Error fetching team members:', error);
+            setTeamMembers([]);
         }
     };
 
@@ -136,9 +174,16 @@ const AdminDashboard = () => {
         try {
             const response = await fetch('https://trendyinteriors-1.onrender.com/api/services');
             const data = await response.json();
-            if (data.success) setServices(data.data);
+            if (!response.ok) {
+                console.error('Error fetching services:', response.status, data.message);
+                setServices([]);
+                return;
+            }
+            if (data.success) setServices(data.data || []);
+            else setServices([]);
         } catch (error) {
             console.error('Error fetching services:', error);
+            setServices([]);
         }
     };
 
@@ -146,9 +191,16 @@ const AdminDashboard = () => {
         try {
             const response = await fetch('https://trendyinteriors-1.onrender.com/api/designs');
             const data = await response.json();
-            if (data.success) setDesigns(data.data);
+            if (!response.ok) {
+                console.error('Error fetching designs:', response.status, data.message);
+                setDesigns([]);
+                return;
+            }
+            if (data.success) setDesigns(data.data || []);
+            else setDesigns([]);
         } catch (error) {
             console.error('Error fetching designs:', error);
+            setDesigns([]);
         }
     };
 
@@ -530,7 +582,12 @@ We look forward to transforming your space!`;
         // Mark as read
         try {
             const token = localStorage.getItem('token');
-            await fetch(`https://trendyinteriors-1.onrender.com/api/contacts/${contact._id}`, {
+            if (!token) {
+                console.error('No auth token found');
+                return;
+            }
+            
+            const response = await fetch(`https://trendyinteriors-1.onrender.com/api/contacts/${contact._id}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
@@ -538,6 +595,10 @@ We look forward to transforming your space!`;
                 },
                 body: JSON.stringify({ status: 'replied' })
             });
+            
+            if (!response.ok) {
+                console.error('Error updating contact status:', response.status);
+            }
         } catch (error) {
             console.error('Error updating contact status:', error);
         }
@@ -554,16 +615,27 @@ We look forward to transforming your space!`;
 
         try {
             const token = localStorage.getItem('token');
+            if (!token) {
+                showToast('Authentication error: Please log in again', 'error');
+                return;
+            }
+            
             const response = await fetch(`https://trendyinteriors-1.onrender.com/api/contacts/${id}`, {
                 method: 'DELETE',
                 headers: { 'Authorization': `Bearer ${token}` }
             });
 
-            if (!response.ok) throw new Error('Failed to delete');
+            const data = await response.json();
+            
+            if (!response.ok) {
+                throw new Error(data.message || data.error || 'Failed to delete contact');
+            }
+            
             showToast('Contact deleted successfully!', 'success');
             fetchContacts();
         } catch (error) {
-            showToast('Failed to delete contact', 'error');
+            console.error('Error deleting contact:', error);
+            showToast(`Failed to delete contact: ${error.message}`, 'error');
         }
     };
 
