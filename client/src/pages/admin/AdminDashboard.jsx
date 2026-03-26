@@ -88,17 +88,27 @@ const AdminDashboard = () => {
     // ============ FETCH ALL DATA ============
     const fetchProjects = async () => {
         try {
-            const response = await fetch('https://trendyinteriors-1.onrender.com/api/projects');
+            const response = await fetch('https://trendyinteriors-1.onrender.com/api/projects', {
+                method: 'GET',
+                headers: { 'Content-Type': 'application/json' }
+            });
             const data = await response.json();
             if (!response.ok) {
-                console.error('Error fetching projects:', data.message || 'Unknown error');
+                console.error('Error fetching projects:', response.status, data.message || 'Unknown error');
+                console.error('Full error response:', data);
                 setProjects([]);
                 return;
             }
-            if (data.success) setProjects(data.data || []);
-            else setProjects([]);
+            if (data.success && Array.isArray(data.data)) {
+                console.log('Projects loaded successfully:', data.data.length, 'items');
+                setProjects(data.data);
+            } else {
+                console.warn('Unexpected response format:', data);
+                setProjects([]);
+            }
         } catch (error) {
-            console.error('Error fetching projects:', error);
+            console.error('Error fetching projects:', error.message);
+            console.error('Full error:', error);
             setProjects([]);
         }
     };
@@ -112,18 +122,29 @@ const AdminDashboard = () => {
                 return;
             }
             const response = await fetch('https://trendyinteriors-1.onrender.com/api/testimonials/admin/all', {
-                headers: { 'Authorization': `Bearer ${token}` }
+                method: 'GET',
+                headers: { 
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                }
             });
             const data = await response.json();
             if (!response.ok) {
-                console.error('Error fetching testimonials:', response.status, data.error || data.message);
+                console.error('Error fetching testimonials:', response.status, data.error || data.message || 'Unknown error');
+                console.error('Full error response:', data);
                 setTestimonials([]);
                 return;
             }
-            if (data.success) setTestimonials(data.data || []);
-            else setTestimonials([]);
+            if (data.success && Array.isArray(data.data)) {
+                console.log('Testimonials loaded successfully:', data.data);
+                setTestimonials(data.data);
+            } else {
+                console.warn('Unexpected response format:', data);
+                setTestimonials([]);
+            }
         } catch (error) {
-            console.error('Error fetching testimonials:', error);
+            console.error('Error fetching testimonials:', error.message);
+            console.error('Full error:', error);
             setTestimonials([]);
         }
     };
@@ -137,69 +158,110 @@ const AdminDashboard = () => {
                 return;
             }
             const response = await fetch('https://trendyinteriors-1.onrender.com/api/contacts', {
-                headers: { 'Authorization': `Bearer ${token}` }
+                method: 'GET',
+                headers: { 
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                }
             });
             const data = await response.json();
             if (!response.ok) {
-                console.error('Error fetching contacts:', response.status, data.error || data.message);
+                console.error('Error fetching contacts:', response.status, data.error || data.message || 'Unknown error');
+                console.error('Full error response:', data);
                 setContacts([]);
                 return;
             }
-            if (data.success) setContacts(data.data || []);
-            else setContacts([]);
+            if (data.success && Array.isArray(data.data)) {
+                console.log('Contacts loaded successfully:', data.data);
+                setContacts(data.data);
+            } else {
+                console.warn('Unexpected response format:', data);
+                setContacts([]);
+            }
         } catch (error) {
-            console.error('Error fetching contacts:', error);
+            console.error('Error fetching contacts:', error.message);
+            console.error('Full error:', error);
             setContacts([]);
         }
     };
 
     const fetchTeamMembers = async () => {
         try {
-            const response = await fetch('https://trendyinteriors-1.onrender.com/api/team-members');
+            const response = await fetch('https://trendyinteriors-1.onrender.com/api/team-members', {
+                method: 'GET',
+                headers: { 'Content-Type': 'application/json' }
+            });
             const data = await response.json();
             if (!response.ok) {
-                console.error('Error fetching team members:', response.status, data.message);
+                console.error('Error fetching team members:', response.status, data.message || 'Unknown error');
+                console.error('Full error response:', data);
                 setTeamMembers([]);
                 return;
             }
-            if (data.success) setTeamMembers(data.data || []);
-            else setTeamMembers([]);
+            if (data.success && Array.isArray(data.data)) {
+                console.log('Team members loaded successfully:', data.data.length, 'items');
+                setTeamMembers(data.data);
+            } else {
+                console.warn('Unexpected response format:', data);
+                setTeamMembers([]);
+            }
         } catch (error) {
-            console.error('Error fetching team members:', error);
+            console.error('Error fetching team members:', error.message);
+            console.error('Full error:', error);
             setTeamMembers([]);
         }
     };
 
     const fetchServices = async () => {
         try {
-            const response = await fetch('https://trendyinteriors-1.onrender.com/api/services');
+            const response = await fetch('https://trendyinteriors-1.onrender.com/api/services', {
+                method: 'GET',
+                headers: { 'Content-Type': 'application/json' }
+            });
             const data = await response.json();
             if (!response.ok) {
-                console.error('Error fetching services:', response.status, data.message);
+                console.error('Error fetching services:', response.status, data.message || 'Unknown error');
+                console.error('Full error response:', data);
                 setServices([]);
                 return;
             }
-            if (data.success) setServices(data.data || []);
-            else setServices([]);
+            if (data.success && Array.isArray(data.data)) {
+                console.log('Services loaded successfully:', data.data.length, 'items');
+                setServices(data.data);
+            } else {
+                console.warn('Unexpected response format:', data);
+                setServices([]);
+            }
         } catch (error) {
-            console.error('Error fetching services:', error);
+            console.error('Error fetching services:', error.message);
+            console.error('Full error:', error);
             setServices([]);
         }
     };
 
     const fetchDesigns = async () => {
         try {
-            const response = await fetch('https://trendyinteriors-1.onrender.com/api/designs');
+            const response = await fetch('https://trendyinteriors-1.onrender.com/api/designs', {
+                method: 'GET',
+                headers: { 'Content-Type': 'application/json' }
+            });
             const data = await response.json();
             if (!response.ok) {
-                console.error('Error fetching designs:', response.status, data.message);
+                console.error('Error fetching designs:', response.status, data.message || 'Unknown error');
+                console.error('Full error response:', data);
                 setDesigns([]);
                 return;
             }
-            if (data.success) setDesigns(data.data || []);
-            else setDesigns([]);
+            if (data.success && Array.isArray(data.data)) {
+                console.log('Designs loaded successfully:', data.data.length, 'items');
+                setDesigns(data.data);
+            } else {
+                console.warn('Unexpected response format:', data);
+                setDesigns([]);
+            }
         } catch (error) {
-            console.error('Error fetching designs:', error);
+            console.error('Error fetching designs:', error.message);
+            console.error('Full error:', error);
             setDesigns([]);
         }
     };

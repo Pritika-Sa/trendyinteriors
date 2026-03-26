@@ -5,7 +5,6 @@ const { sendAdminEmail } = require('../utils/mail');
 const { generateContactEmailHTML } = require('../utils/emailTemplates');
 const router = express.Router();
 
-// Create contact
 // Create contact (public - for all visitors)
 router.post('/', async (req, res) => {
   try {

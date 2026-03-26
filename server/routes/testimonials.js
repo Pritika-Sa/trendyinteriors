@@ -39,7 +39,18 @@ router.post('/', async (req, res) => {
   }
 });
 
-// Get all approved testimonials
+// ⭐ IMPORTANT: Place specific routes BEFORE parameterized routes
+// Get all testimonials (Admin only) - MUST come before /:id routes
+router.get('/admin/all', protect, authorize('admin'), async (req, res) => {
+  try {
+    const testimonials = await Testimonial.find().sort({ createdAt: -1 });
+    res.status(200).json({ success: true, data: testimonials });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+});
+
+// Get all approved testimonials (Public endpoint)
 router.get('/', async (req, res) => {
   try {
     const testimonials = await Testimonial.find({ approved: true }).sort({
@@ -54,16 +65,6 @@ router.get('/', async (req, res) => {
       success: false,
       message: error.message,
     });
-  }
-});
-
-// Get all testimonials (Admin only)
-router.get('/admin/all', protect, authorize('admin'), async (req, res) => {
-  try {
-    const testimonials = await Testimonial.find().sort({ createdAt: -1 });
-    res.status(200).json({ success: true, data: testimonials });
-  } catch (error) {
-    res.status(500).json({ success: false, message: error.message });
   }
 });
 
