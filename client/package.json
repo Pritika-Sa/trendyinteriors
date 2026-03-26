@@ -2,7 +2,6 @@
   "name": "trendyinterios-client",
   "version": "0.1.0",
   "private": true,
-  "proxy": "http://localhost:5000",
   "dependencies": {
     "@google/generative-ai": "^0.24.1",
     "axios": "^1.3.0",
